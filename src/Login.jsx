@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Building2, Lock, ArrowRight, ShieldCheck, Mail, Users, User, ChevronDown, AlertTriangle } from 'lucide-react';
 
+const API_URL = "https://erolymz7-aieus-api.hf.space";
+
 const Login = ({ onLoginSuccess }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [hata, setHata] = useState('');
@@ -37,7 +39,7 @@ const Login = ({ onLoginSuccess }) => {
     const endpoint = isLoginMode ? '/api/giris' : '/api/kayit';
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000${endpoint}`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

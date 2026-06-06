@@ -7,6 +7,8 @@ import jsPDF from 'jspdf';
 import ExcelJS from 'exceljs';
 import html2pdf from 'html2pdf.js';
 
+const API_URL = "https://erolymz7-aieus-api.hf.space";
+
 function App() {
   const [aktifKullanici, setAktifKullanici] = useState(null); 
   const [aktifSayfa, setAktifSayfa] = useState('anasayfa');
@@ -133,7 +135,7 @@ function App() {
   const handleKurumsalGecis = async () => {
     setAktifSayfa('kurumsal'); setKurumsalHata(''); setKurumsalOzet(null);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/kurumsal/${aktifKullanici.kurum_adi}`);
+      const response = await fetch(`${API_URL}/api/kurumsal/${aktifKullanici.kurum_adi}`);
       const data = await response.json();
       if (data.hata) setKurumsalHata(data.hata); else setKurumsalOzet(data);
     } catch (err) { setKurumsalHata('Veriler çekilirken sunucuya ulaşılamadı.'); }
