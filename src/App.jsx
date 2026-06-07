@@ -155,18 +155,30 @@ function App() {
     try {
       const raporAlani = document.getElementById('pdf-rapor-alani');
       if (!raporAlani) return;
+      
       const buton = document.getElementById('pdf-indir-btn');
       if(buton) buton.innerText = "Hazırlanıyor...";
-      const filtre = (node) => node.id !== 'pdf-indir-btn' && node.id !== 'excel-indir-btn';
-      const dataUrl = await toPng(raporAlani, { quality: 1, backgroundColor: isDarkMode ? '#0f172a' : '#ffffff', filter: filtre });
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (raporAlani.offsetHeight * pdfWidth) / raporAlani.offsetWidth;
-      pdf.addImage(dataUrl, 'PNG', 0, 10, pdfWidth, pdfHeight);
-      const kurumAdiTemiz = aktifKullanici.kurum_adi ? aktifKullanici.kurum_adi.replace(/\s+/g, '_') : 'Kurum';
-      pdf.save(`${kurumAdiTemiz}_AIEUS_Etik_Raporu.pdf`);
+
+      const opt = {
+        margin:       [10, 10],
+        filename:     `${aktifKullanici.kurum_adi ? aktifKullanici.kurum_adi.replace(/\s+/g, '_') : 'Kurum'}_AIEUS_Raporu.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true,
+          width: 1200, 
+          windowWidth: 1200 
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+
+      await html2pdf().set(opt).from(raporAlani).save();
+      
       if(buton) buton.innerText = "Sunum İndir (PDF)";
-    } catch (error) { console.error("PDF oluşturulurken hata:", error); }
+    } catch (error) { 
+      console.error("PDF oluşturulurken hata:", error); 
+      if(buton) buton.innerText = "Hata Oluştu";
+    }
   };
 
   const excelIndir = async () => {
