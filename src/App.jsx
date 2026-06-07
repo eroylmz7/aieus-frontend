@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     const timeoutZamanlayici = setTimeout(() => { setLoading(false); }, 3000);
-    fetch('http://127.0.0.1:8000/api/sorular')
+    fetch(`${API_URL}/api/sorular`)
       .then(res => {
         if (!res.ok) throw new Error(`Sunucu Hatası: ${res.status}`);
         return res.json();
@@ -115,7 +115,7 @@ function App() {
       cevaplar: Object.keys(cevaplar).map(key => ({ soru_id: parseInt(key), puan: cevaplar[key] }))
     };
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/degerlendir', {
+      const response = await fetch(`${API_URL}/api/degerlendir`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(istek)
       });
       const data = await response.json();
@@ -144,7 +144,7 @@ function App() {
   const handleRaporlaraGecis = async () => {
     setAktifSayfa('raporlar'); setRaporLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/raporlar/${aktifKullanici.id}`);
+      const response = await fetch(`${API_URL}/api/raporlar/${aktifKullanici.id}`);
       const data = await response.json();
       if (data.raporlar) setGecmisRaporlar(data.raporlar);
     } catch (err) { console.error("Raporlar çekilemedi", err); } 
@@ -229,7 +229,7 @@ function App() {
     setChatLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mesaj: yeniMesaj.metin })
@@ -645,7 +645,7 @@ function App() {
                               setEgitimModalAcik(true); 
                               setLlmLoading(true);
                               try {
-                                const response = await fetch('http://127.0.0.1:8000/api/llm_tavsiye', {
+                                const response = await fetch(`${API_URL}/api/llm_tavsiye`, {
                                   method: 'POST',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ kullanici_ismi: aktifKullanici.isim, boyut_adi: aksiyon.boyut, puan: aksiyon.puan })
