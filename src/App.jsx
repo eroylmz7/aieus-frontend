@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import ExcelJS from 'exceljs';
 import html2pdf from 'html2pdf.js';
 
-const API_URL = "https://erolymz7-aieus-api.hf.space";
+const API_URL = "https://eroylmz7-aieus-api.hf.space";
 
 function App() {
   const [aktifKullanici, setAktifKullanici] = useState(null); 

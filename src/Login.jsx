@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Building2, Lock, ArrowRight, ShieldCheck, Mail, Users, User, ChevronDown, AlertTriangle } from 'lucide-react';
 
-const API_URL = "https://erolymz7-aieus-api.hf.space";
+const API_URL = "https://eroylmz7-aieus-api.hf.space";
 
 const Login = ({ onLoginSuccess }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
