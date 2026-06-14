@@ -11,10 +11,23 @@ const API_URL = "https://eroylmz7-aieus-api.hf.space";
 
 function App() {
   const [aktifKullanici, setAktifKullanici] = useState(() => {
-    const kayitliKullanici = localStorage.getItem('aktifKullanici');
-    return kayitliKullanici ? JSON.parse(kayitliKullanici) : null;
+    try {
+      const kayitliKullanici = localStorage.getItem('aktifKullanici');
+      return kayitliKullanici ? JSON.parse(kayitliKullanici) : null;
+    } catch (e) {
+      console.error("Kullanıcı verisi okunamadı:", e);
+      return null;
+    }
   }); 
-  const [aktifSayfa, setAktifSayfa] = useState('anasayfa');
+
+  const [aktifSayfa, setAktifSayfa] = useState(() => {
+    return localStorage.getItem('aktifSayfa') || 'anasayfa';
+  });
+
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem('isDarkMode');
+    return savedMode !== null ? JSON.parse(savedMode) : true;
+  });
 
   useEffect(() => {
     if (aktifKullanici) {
@@ -23,7 +36,14 @@ function App() {
       localStorage.removeItem('aktifKullanici');
     }
   }, [aktifKullanici]);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    localStorage.setItem('aktifSayfa', aktifSayfa);
+  }, [aktifSayfa]);
+
+  useEffect(() => {
+    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
   
   const [sorular, setSorular] = useState([]);
   const [cevaplar, setCevaplar] = useState({});
