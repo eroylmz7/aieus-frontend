@@ -247,7 +247,7 @@ function App() {
     } catch (error) { console.error("Excel hatası:", error); }
   };
 
-  // CHATBOT / RAG sistemi
+  // CHATBOT / RAG sistemiii
 
   const mesajGonder = async (e) => {
     e.preventDefault();
