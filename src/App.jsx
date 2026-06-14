@@ -10,8 +10,19 @@ import html2pdf from 'html2pdf.js';
 const API_URL = "https://eroylmz7-aieus-api.hf.space";
 
 function App() {
-  const [aktifKullanici, setAktifKullanici] = useState(null); 
+  const [aktifKullanici, setAktifKullanici] = useState(() => {
+    const kayitliKullanici = localStorage.getItem('aktifKullanici');
+    return kayitliKullanici ? JSON.parse(kayitliKullanici) : null;
+  }); 
   const [aktifSayfa, setAktifSayfa] = useState('anasayfa');
+
+  useEffect(() => {
+    if (aktifKullanici) {
+      localStorage.setItem('aktifKullanici', JSON.stringify(aktifKullanici));
+    } else {
+      localStorage.removeItem('aktifKullanici');
+    }
+  }, [aktifKullanici]);
   const [isDarkMode, setIsDarkMode] = useState(true);
   
   const [sorular, setSorular] = useState([]);
